@@ -1,0 +1,289 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+===============================================
+{% comment %}
+  HERO JAM V22 - RESTORED SMALL IMAGES + MOBILE EDGE-TO-EDGE
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+{% style %}
+/* --- DESKTOP STYLES --- */
+.hero-wrapper-{{ section.id }} { overflow: visible !important; position: relative; background: #ffffff; width: 100%; z-index: 2; }
+.hero-container-{{ section.id }} { display: grid; grid-template-columns: 43% 57%; min-height: 90vh; position: relative; overflow: visible; }
+
+.hero-left-{{ section.id }} { 
+  position: relative; display: flex; align-items: center; z-index: 10;
+  {% if section.settings.left_bg_image != blank %}
+    background-image: url('{{ section.settings.left_bg_image | image_url: width: 1400 }}');
+    background-size: cover; background-position: center;
+  {% endif %}
+}
+
+.hero-content-group-{{ section.id }} { position: relative; width: 100%; padding-left: 8%; transform: translateX({{ section.settings.content_group_x }}px); z-index: 30; display: flex; flex-direction: column; }
+
+.hero-title-{{ section.id }} { margin: 0; color: white; font-family: 'Anton', sans-serif; font-size: 100px; line-height: 0.90; text-transform: uppercase; text-shadow: 14px 14px 0px #B01F5D; -webkit-text-stroke: 4px #AF1F5C; position: relative; z-index: 5; }
+.hero-title-{{ section.id }} span { display: block; }
+
+.hero-indicators-wrap-{{ section.id }} { position: absolute; top: {{ section.settings.indicator_top }}%; left: {{ section.settings.indicator_left }}px; z-index: 50; transform: translateY(-50%); }
+.hero-indicators-{{ section.id }} { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.hero-indicators-{{ section.id }} span { width: 12px; height: 12px; cursor: pointer; display: block; transition: 0.4s; transform-origin: left center; }
+.hero-indicators-{{ section.id }} span[data-index="0"] { background-color: #EFD2DE; }
+.hero-indicators-{{ section.id }} span[data-index="1"] { background-color: #D4D0D8; }
+.hero-indicators-{{ section.id }} span[data-index="2"] { background-color: #FBEBC8; }
+.hero-indicators-{{ section.id }} span.active { transform: scale(1.6); }
+.hero-indicators-{{ section.id }} span.active[data-index="0"] { background-color: #AF1F5C !important; }
+.hero-indicators-{{ section.id }} span.active[data-index="1"] { background-color: #2E1947 !important; }
+.hero-indicators-{{ section.id }} span.active[data-index="2"] { background-color: #EE9D06 !important; }
+
+.hero-title-bg-{{ section.id }} { position: absolute; top: {{ section.settings.title_bg_top }}%; left: {{ section.settings.title_bg_offset }}%; width: {{ section.settings.title_bg_width }}%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none; }
+.hero-title-bg-{{ section.id }} img { width: 100%; height: auto; display: block; }
+
+.hero-text-{{ section.id }} { padding-top: 35px; padding-bottom: 20px; max-width: 395px; margin: 0; z-index: 5; font-size: 16px; line-height: 25px; }
+.hero-btn-{{ section.id }} { align-self: flex-start; padding: 5px 30px; background: #2E114D; color: #fff; border-radius: 50px; text-decoration: none; font-size: 32px; z-index: 5; }
+
+.small-images-layer-{{ section.id }} { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; }
+.small-img-node-{{ section.id }} { position: absolute; transition: all 0.6s ease; opacity: 0; transform: scale(0.8); }
+.small-img-node-{{ section.id }} img { width: 100%; height: 100%; object-fit: contain; }
+.is-active-img { opacity: 1 !important; transform: scale(1) !important; }
+
+@keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.float-effect { animation: floatAnim 3s ease-in-out infinite; }
+
+.hero-right-{{ section.id }} { background: #8FD3E8; position: relative; overflow: hidden; }
+.heroSwiper-{{ section.id }} { width: 100%; height: 100%; }
+.heroSwiper-{{ section.id }} img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- MOBILE DESIGN --- */
+@media (max-width: 768px) {
+  .hero-container-{{ section.id }} { 
+    display: flex; flex-direction: column; 
+    padding: 45px 0 0px 0; text-align: center; min-height: auto; 
+    background-color: #92CAEE; width: 100%; overflow: hidden;
+  }
+  p.announcement-bar__message.h5 {
+    font-weight: 700;
+  }
+  .hero-text-{{ section.id }} {
+    padding: 0;
+    width: 90%
+  }
+  .hero-text-{{ section.id }} p {
+    font-size: 18px;
+  }
+  .hero-btn-{{ section.id }}{
+    align-self: center;
+    padding: 0px 60px;
+    font-size: 34px;
+  }
+  .hero-left-{{ section.id }} { order: 1; background-image: none !important; padding: 0 20px; justify-content: center; }
+  .hero-content-group-{{ section.id }} { padding: 10px 20px 20px 20px; transform: none !important; align-items: center; }
+  .hero-title-{{ section.id }} { font-size: 55px; text-shadow: 8px 8px 0px #B01F5D; -webkit-text-stroke: 2px #AF1F5C; line-height: 0.95; }
+
+  .hero-title-bg-{{ section.id }} {
+    width: {{ section.settings.m_shape_w }}% !important;
+    top: {{ section.settings.m_shape_t }}% !important;
+    left: {{ section.settings.m_shape_l }}% !important;
+  }
+
+  /* EDGE-TO-EDGE SLIDER */
+  .hero-right-{{ section.id }} { 
+    order: 2; height: auto; background: transparent; overflow: visible; width: 100%; margin: 0; padding: 0;
+  }
+  .heroSwiper-{{ section.id }} { width: 100% !important; }
+  .heroSwiper-{{ section.id }} .swiper-slide img { 
+    width: 100% !important; height: auto; object-fit: contain; margin: 0;
+  }
+
+  .hero-indicators-wrap-{{ section.id }} { 
+    position: relative; order: 3; top: auto !important; left: auto !important; 
+    transform: none; margin-top: -25px; width: 100%; display: flex; justify-content: center;
+    bottom: 20px; 
+  }
+  .hero-indicators-{{ section.id }} { flex-direction: row; gap: 12px; }
+  .hero-indicators-{{ section.id }} span { width: 15px; height: 15px;
+    transform-origin: bottom center; 
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Small Images Positions on Mobile */
+  {% for block in section.blocks %}
+    {% unless block.settings.m_show1 %}.node-{{ block.id }}-1 { display: none !important; }{% endunless %}
+    {% unless block.settings.m_show2 %}.node-{{ block.id }}-2 { display: none !important; }{% endunless %}
+    {% unless block.settings.m_show3 %}.node-{{ block.id }}-3 { display: none !important; }{% endunless %}
+    {% unless block.settings.m_show4 %}.node-{{ block.id }}-4 { display: none !important; }{% endunless %}
+
+    .node-{{ block.id }}-1 { width: {{ block.settings.m_w1 }}px !important; top: {{ block.settings.m_t1 }}% !important; left: {{ block.settings.m_l1 }}% !important; }
+    .node-{{ block.id }}-2 { width: {{ block.settings.m_w2 }}px !important; top: {{ block.settings.m_t2 }}% !important; left: {{ block.settings.m_l2 }}% !important; }
+    .node-{{ block.id }}-3 { width: {{ block.settings.m_w3 }}px !important; top: {{ block.settings.m_t3 }}% !important; left: {{ block.settings.m_l3 }}% !important; }
+    .node-{{ block.id }}-4 { width: {{ block.settings.m_w4 }}px !important; top: {{ block.settings.m_t4 }}% !important; left: {{ block.settings.m_l4 }}% !important; }
+  {% endfor %}
+}
+{% endstyle %}
+
+<section class="hero-wrapper-{{ section.id }}">
+  <div class="hero-container-{{ section.id }}">
+    <div class="hero-left-{{ section.id }}">
+      <div id="leftLayer-{{ section.id }}" class="small-images-layer-{{ section.id }}"></div>
+      <div class="hero-content-group-{{ section.id }}">
+        <div class="hero-title-wrap-{{ section.id }}">
+          {% if section.settings.title_bg != blank %}
+            <div class="hero-title-bg-{{ section.id }}">{{ section.settings.title_bg | image_url: width: 800 | image_tag }}</div>
+          {% endif %}
+          <h1 class="hero-title-{{ section.id }}">
+            {% assign lines = section.settings.title | split: '|' %}{% for line in lines %}<span>{{ line }}</span>{% endfor %}
+          </h1>
+        </div>
+        <div class="hero-text-{{ section.id }}">{{ section.settings.rich_description }}</div>
+        <a href="{{ section.settings.button_link }}" class="hero-btn-{{ section.id }} cus_font_anton">{{ section.settings.button_label }}</a>
+      </div>
+    </div>
+
+    <div class="hero-right-{{ section.id }}">
+      <div id="rightLayer-{{ section.id }}" class="small-images-layer-{{ section.id }}"></div>
+      <div class="swiper heroSwiper-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide">{{ block.settings.image | image_url: width: 1200 | image_tag }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-indicators-wrap-{{ section.id }}">
+        <div class="hero-indicators-{{ section.id }}" id="dotsGroup-{{ section.id }}">
+            {% for block in section.blocks %}<span class="indicator-dot" data-index="{{ forloop.index0 }}"></span>{% endfor %}
+        </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dots = document.querySelectorAll("#dotsGroup-{{ section.id }} .indicator-dot");
+  const leftL = document.getElementById("leftLayer-{{ section.id }}");
+  const rightL = document.getElementById("rightLayer-{{ section.id }}");
+
+  const slideData = [
+    {% for block in section.blocks %}
+    {
+      items: [
+        {% if block.settings.small_image_1 != blank %}{ blockId: "{{ block.id }}", id: 1, src: "{{ block.settings.small_image_1 | image_url: width: 300 }}", w: {{ block.settings.small_image_1_w }}, t: {{ block.settings.small_image_1_t }}, l: {{ block.settings.small_image_1_l }}, p: "{{ block.settings.small_image_1_pos }}", f: {{ block.settings.small_image_1_float }} },{% endif %}
+        {% if block.settings.small_image_2 != blank %}{ blockId: "{{ block.id }}", id: 2, src: "{{ block.settings.small_image_2 | image_url: width: 300 }}", w: {{ block.settings.small_image_2_w }}, t: {{ block.settings.small_image_2_t }}, l: {{ block.settings.small_image_2_l }}, p: "{{ block.settings.small_image_2_pos }}", f: {{ block.settings.small_image_2_float }} },{% endif %}
+        {% if block.settings.small_image_3 != blank %}{ blockId: "{{ block.id }}", id: 3, src: "{{ block.settings.small_image_3 | image_url: width: 300 }}", w: {{ block.settings.small_image_3_w }}, t: {{ block.settings.small_image_3_t }}, l: {{ block.settings.small_image_3_l }}, p: "{{ block.settings.small_image_3_pos }}", f: {{ block.settings.small_image_3_float }} },{% endif %}
+        {% if block.settings.small_image_4 != blank %}{ blockId: "{{ block.id }}", id: 4, src: "{{ block.settings.small_image_4 | image_url: width: 300 }}", w: {{ block.settings.small_image_4_w }}, t: {{ block.settings.small_image_4_t }}, l: {{ block.settings.small_image_4_l }}, p: "{{ block.settings.small_image_4_pos }}", f: {{ block.settings.small_image_4_float }} }{% endif %}
+      ]
+    },
+    {% endfor %}
+  ];
+
+  const swiper = new Swiper(".heroSwiper-{{ section.id }}", {
+    loop: true, speed: 800, autoplay: { delay: 5000 },
+    on: {
+      init: function() { updateSlide(0); },
+      slideChange: function() { updateSlide(this.realIndex); }
+    }
+  });
+
+  function updateSlide(idx) {
+    dots.forEach(d => d.classList.remove('active'));
+    if(dots[idx]) dots[idx].classList.add('active');
+    leftL.innerHTML = ''; rightL.innerHTML = '';
+    if(!slideData[idx]) return;
+
+    slideData[idx].items.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = `small-img-node-{{ section.id }} node-${item.blockId}-${item.id}`;
+      if(item.f) el.classList.add('float-effect');
+      el.style.cssText = `width:${item.w}px; top:${item.t}%; left:${item.l}%;`;
+      el.innerHTML = `<img src="${item.src}">`;
+      (item.p === 'left' ? leftL : rightL).appendChild(el);
+      setTimeout(() => el.classList.add('is-active-img'), i * 100);
+    });
+  }
+  dots.forEach(dot => { dot.onclick = () => swiper.slideToLoop(parseInt(dot.dataset.index)); });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Hero Jam V22 Final",
+  "settings": [
+    { "type": "header", "content": "Desktop Settings" },
+    { "type": "image_picker", "id": "left_bg_image", "label": "Background Image (Left Side)" },
+    { "type": "range", "id": "indicator_top", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Dots Top Pos", "default": 50 },
+    { "type": "range", "id": "indicator_left", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Dots Left Offset", "default": 40 },
+    { "type": "range", "id": "content_group_x", "min": -100, "max": 300, "step": 4, "label": "Content X Offset", "default": 0 },
+    { "type": "textarea", "id": "title", "label": "Title (| split)", "default": "SMALL BATCH,|BIG FLAVOR" },
+    { "type": "richtext", "id": "rich_description", "label": "Description" },
+    { "type": "image_picker", "id": "title_bg", "label": "Shape Image (Peeche)" },
+    { "type": "range", "id": "title_bg_width", "min": 10, "max": 150, "step": 2, "label": "Desktop Shape Size", "default": 80 },
+    { "type": "range", "id": "title_bg_offset", "min": 0, "max": 100, "step": 1, "label": "Desktop Shape Left", "default": 40 },
+    { "type": "range", "id": "title_bg_top", "min": 0, "max": 100, "step": 1, "label": "Desktop Shape Top", "default": 50 },
+    { "type": "header", "content": "Mobile Settings (Shape)" },
+    { "type": "range", "id": "m_shape_w", "min": 10, "max": 200, "step": 2, "label": "Mobile Shape Size %", "default": 90 },
+    { "type": "range", "id": "m_shape_t", "min": 0, "max": 100, "step": 1, "label": "Mobile Shape Top %", "default": 35 },
+    { "type": "range", "id": "m_shape_l", "min": 0, "max": 100, "step": 1, "label": "Mobile Shape Left %", "default": 50 },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "SHOP NOW" },
+    { "type": "url", "id": "button_link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Main Image" },
+        { "type": "header", "content": "Small Image 1" },
+        { "type": "image_picker", "id": "small_image_1", "label": "Image" },
+        { "type": "select", "id": "small_image_1_pos", "label": "Side", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "left" },
+        { "type": "range", "id": "small_image_1_w", "min": 40, "max": 400, "step": 4, "label": "Width px", "default": 120 },
+        { "type": "range", "id": "small_image_1_t", "min": 0, "max": 100, "step": 1, "label": "Top %", "default": 10 },
+        { "type": "range", "id": "small_image_1_l", "min": 0, "max": 100, "step": 1, "label": "Left %", "default": 10 },
+        { "type": "checkbox", "id": "small_image_1_float", "label": "Float Effect", "default": true },
+        { "type": "checkbox", "id": "m_show1", "label": "Show on Mobile", "default": true },
+        { "type": "range", "id": "m_w1", "min": 20, "max": 200, "step": 2, "label": "Mobile Width px", "default": 60 },
+        { "type": "range", "id": "m_t1", "min": 0, "max": 100, "step": 1, "label": "Mobile Top %", "default": 20 },
+        { "type": "range", "id": "m_l1", "min": 0, "max": 100, "step": 1, "label": "Mobile Left %", "default": 10 },
+        
+        { "type": "header", "content": "Small Image 2" },
+        { "type": "image_picker", "id": "small_image_2", "label": "Image" },
+        { "type": "select", "id": "small_image_2_pos", "label": "Side", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "left" },
+        { "type": "range", "id": "small_image_2_w", "min": 40, "max": 400, "step": 4, "label": "Width px", "default": 100 },
+        { "type": "range", "id": "small_image_2_t", "min": 0, "max": 100, "step": 1, "label": "Top %", "default": 70 },
+        { "type": "range", "id": "small_image_2_l", "min": 0, "max": 100, "step": 1, "label": "Left %", "default": 5 },
+        { "type": "checkbox", "id": "small_image_2_float", "label": "Float Effect", "default": false },
+        { "type": "checkbox", "id": "m_show2", "label": "Show on Mobile", "default": true },
+        { "type": "range", "id": "m_w2", "min": 20, "max": 200, "step": 2, "label": "Mobile Width px", "default": 50 },
+        { "type": "range", "id": "m_t2", "min": 0, "max": 100, "step": 1, "label": "Mobile Top %", "default": 80 },
+        { "type": "range", "id": "m_l2", "min": 0, "max": 100, "step": 1, "label": "Mobile Left %", "default": 5 },
+
+        { "type": "header", "content": "Small Image 3" },
+        { "type": "image_picker", "id": "small_image_3", "label": "Image" },
+        { "type": "select", "id": "small_image_3_pos", "label": "Side", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "right" },
+        { "type": "range", "id": "small_image_3_w", "min": 40, "max": 400, "step": 4, "label": "Width px", "default": 100 },
+        { "type": "range", "id": "small_image_3_t", "min": 0, "max": 100, "step": 1, "label": "Top %", "default": 20 },
+        { "type": "range", "id": "small_image_3_l", "min": 0, "max": 100, "step": 1, "label": "Left %", "default": 80 },
+        { "type": "checkbox", "id": "small_image_3_float", "label": "Float Effect", "default": true },
+        { "type": "checkbox", "id": "m_show3", "label": "Show on Mobile", "default": true },
+        { "type": "range", "id": "m_w3", "min": 20, "max": 200, "step": 2, "label": "Mobile Width px", "default": 50 },
+        { "type": "range", "id": "m_t3", "min": 0, "max": 100, "step": 1, "label": "Mobile Top %", "default": 30 },
+        { "type": "range", "id": "m_l3", "min": 0, "max": 100, "step": 1, "label": "Mobile Left %", "default": 85 },
+
+        { "type": "header", "content": "Small Image 4" },
+        { "type": "image_picker", "id": "small_image_4", "label": "Image" },
+        { "type": "select", "id": "small_image_4_pos", "label": "Side", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "right" },
+        { "type": "range", "id": "small_image_4_w", "min": 40, "max": 400, "step": 4, "label": "Width px", "default": 100 },
+        { "type": "range", "id": "small_image_4_t", "min": 0, "max": 100, "step": 1, "label": "Top %", "default": 60 },
+        { "type": "range", "id": "small_image_4_l", "min": 0, "max": 100, "step": 1, "label": "Left %", "default": 70 },
+        { "type": "checkbox", "id": "small_image_4_float", "label": "Float Effect", "default": false },
+        { "type": "checkbox", "id": "m_show4", "label": "Show on Mobile", "default": true },
+        { "type": "range", "id": "m_w4", "min": 20, "max": 200, "step": 2, "label": "Mobile Width px", "default": 50 },
+        { "type": "range", "id": "m_t4", "min": 0, "max": 100, "step": 1, "label": "Mobile Top %", "default": 70 },
+        { "type": "range", "id": "m_l4", "min": 0, "max": 100, "step": 1, "label": "Mobile Left %", "default": 75 }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Hero Jam V22 Final" }]
+}
+{% endschema %}
