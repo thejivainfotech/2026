@@ -1,0 +1,705 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+home page par use kiya gya section
+thumbnail par click karne par pura product change ho raha
+===============================================
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- assign first_block = section.blocks | first -%}
+{%- assign product = all_products[first_block.settings.product_ref] -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{%- if section.blocks.size > 0 -%}
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+{%- assign img_count = 0 -%}
+{%- for variant in product.variants -%}
+  {%- if variant.featured_image != blank -%}{%- assign img_count = img_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+
+<section class="josh-v5-wrapper" id="Section-{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;">
+  <div class="josh-grid-layout {% if section.settings.enable_sticky %}is-sticky-on{% endif %}">
+    
+    <div class="josh-media-col">
+      <div class="josh-sticky-wrap">
+        {% if section.settings.show_badge %}
+          <div class="josh-badge-dynamic" style="{% if section.settings.v_pos == 'top' %} top: {{ section.settings.badge_top }}%; {% else %} bottom: {{ section.settings.badge_bottom }}%; {% endif %} {% if section.settings.h_pos == 'left' %} left: {{ section.settings.badge_left }}%; {% else %} right: {{ section.settings.badge_right }}%; {% endif %} width: {{ section.settings.badge_size }}px;">
+            {% if section.settings.badge_shape != blank %}
+              <img src="{{ section.settings.badge_shape | img_url: '400x' }}" class="badge-bg-img" alt="badge">
+            {% endif %}
+            <span class="badge-text-figma" style="font-size: {{ section.settings.badge_font_size }}px; transform: translate({{ section.settings.text_x_offset }}%, {{ section.settings.text_y_offset }}%);">
+              {{ section.settings.badge_label | newline_to_br }}
+            </span>
+          </div>
+        {% endif %}
+        <div class="josh-img-view">
+          <img id="JoshMainImg-{{ section.id }}" src="{{ current_variant.featured_image | default: product.featured_image | img_url: '1400x' }}" class="josh-main-img" alt="{{ product.title }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="josh-content-col">
+      <div class="josh-content-inner">
+        
+        <div class="josh-header-row">
+          <h1 class="josh-title">{{ product.title }}</h1>
+          <div class="josh-main-price cus_font_anton" id="JoshPrice-{{ section.id }}">{{ current_variant.price | money }}</div>
+        </div>
+
+        <div class="josh-trust-row">
+          <span class="trust-text cus_font_epilogue">TRUSTED BY {{ section.settings.customer_count }} CUSTOMERS</span>
+          <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>
+            {{ product.metafields.judgeme.badge }}
+          </div>
+        </div>
+
+        <!-- MOBILE ACCORDION DESCRIPTION (desktop still shows full description) -->
+        <div class="josh-desc-wrap">
+          <button type="button"
+            class="josh-acc-trigger"
+            aria-expanded="false"
+            aria-controls="JoshDescPanel-{{ section.id }}"
+            onclick="toggleJoshDesc('{{ section.id }}')">
+            <span>Description</span>
+            <span class="josh-acc-icon" aria-hidden="true">+</span>
+          </button>
+
+          <div id="JoshDescPanel-{{ section.id }}" class="josh-acc-panel" hidden>
+            <div class="josh-desc">{{ product.description | strip_html }}</div>
+          </div>
+        </div>
+
+        <div class="josh-main-price-mob cus_font_anton" id="JoshPrice-{{ section.id }}">{{ current_variant.price | money }}</div>
+
+        <div class="josh-meta-info">
+          {%- unless product.has_only_default_variant -%}
+            <div class="meta-row">
+              <strong style="padding-right: 7px;">SIZE</strong> 
+              <span id="SelectedSize-{{ section.id }}">
+                {%- for option in product.options_with_values -%}
+                  {%- assign option_name = option.name | downcase -%}
+                  {%- if option_name == 'size' -%}
+                    {{ current_variant.options[forloop.index0] }}
+                  {%- endif -%}
+                {%- endfor -%}
+              </span>
+            </div>
+          {%- endunless -%}
+          
+          {%- if current_variant.metafields.custom.ingredients != blank or product.metafields.custom.ingredients != blank -%}
+            <div class="meta-row">
+              <strong>INGREDIENTS</strong><br> 
+              <span id="VariantIngredients-{{ section.id }}">
+                {{ current_variant.metafields.custom.ingredients | newline_to_br | default: product.metafields.custom.ingredients }}
+              </span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <p class="josh-pdp-text-small">PICK YOUR FLAVORS!</p>
+
+        <!-- THUMB SCROLLER WITH SIDE ARROWS -->
+        <div class="josh-slider-container">
+          {% comment %} <button
+            type="button"
+            class="josh-scroll-btn is-left"
+            id="JoshThumbLeft-{{ section.id }}"
+            aria-label="Scroll flavors left"
+            onclick="scrollJoshThumb(-1, '{{ section.id }}')">
+            <svg width="44" height="44" viewBox="0 0 52 52" aria-hidden="true">
+              <circle cx="26" cy="26" r="23.5" fill="none" stroke="#AF1F5C" stroke-width="2"/>
+              <path d="M29.8 16.6L20.6 26l9.2 9.4" fill="none" stroke="#AF1F5C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button> {% endcomment %}
+
+          <div class="josh-thumb-viewport" id="ThumbWrapper-{{ section.id }}">
+            <div class="josh-thumb-track">
+              {% for block in section.blocks %}
+                {%- assign p = all_products[block.settings.product_ref] -%}
+                {% if p != blank %}
+                  <div class="josh-thumb-item {% if forloop.first %}is-active{% endif %}" 
+                      onclick="switchJoshProduct('{{ p.id }}', this, '{{ section.id }}')">
+                    <div class="thumb-img-box">
+                      <img src="{{ p.featured_image | img_url: '300x' }}" alt="{{ p.title }}">
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          {% comment %} <button
+            type="button"
+            class="josh-scroll-btn is-right"
+            id="JoshThumbRight-{{ section.id }}"
+            aria-label="Scroll flavors right"
+            onclick="scrollJoshThumb(1, '{{ section.id }}')">
+            <svg width="44" height="44" viewBox="0 0 52 52" aria-hidden="true">
+              <circle cx="26" cy="26" r="23.5" fill="none" stroke="#AF1F5C" stroke-width="2"/>
+              <path d="M22.2 16.6L31.4 26l-9.2 9.4" fill="none" stroke="#AF1F5C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button> {% endcomment %}
+        </div>
+
+        <div class="josh-footer-flex">
+            {% comment %} <div class="josh-qty-pill Test-tji">
+              
+            <button type="button" onclick="changeJoshQty(-1, '{{ section.id }}')">
+               <svg width="52" height="52" viewBox="0 0 52 52"><rect x="0.5" y="0.5" width="51" height="51" rx="25.5" fill="none" stroke="#2E1947"/><path d="M39 28.5H13V25.5H39V28.5Z" fill="#2E1947"/></svg>
+            </button>
+            <input type="number" id="JoshQtyInput-{{ section.id }}" value="1" min="1">
+            <button type="button" onclick="changeJoshQty(1, '{{ section.id }}')">
+               <svg width="52" height="52" viewBox="0 0 52 52"><rect width="52" height="52" rx="26" fill="#2E1947"/><path d="M27.5 16V26H37.5V29H27.5V39H24.5V39V29H14.5H13V26H14.5H24.5V16H27.5Z" fill="white"/></svg>
+            </button> 
+          </div>  {% endcomment %}
+          {% assign product_form_id = 'product-form-' | append: section.id %}
+
+          {% comment %} <quantity-input class="quantity">
+            <button class="quantity__button no-js-hidden cus_minus" name="minus" type="button">
+              <span class="visually-hidden">
+                {{ 'products.product.quantity.decrease' | t }}
+              </span>
+              -
+            </button>
+
+            <input
+              class="quantity__input"
+              type="number"
+              name="quantity"
+              min="1"
+              value="1"
+              form="{{ product_form_id }}"
+            >
+
+  <button class="quantity__button no-js-hidden cus_plus" name="plus" type="button">
+    <span class="visually-hidden">
+      {{ 'products.product.quantity.increase' | t }}
+    </span>
+    +
+  </button>
+</quantity-input> {% endcomment %}
+
+<quantity-input class="quantity">
+  <button class="quantity__button no-js-hidden cus_minus" name="minus" type="button">
+    <span class="visually-hidden">
+      {{ 'products.product.quantity.decrease' | t }}
+    </span>
+    <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <input
+    class="quantity__input"
+    type="number"
+    name="quantity"
+    id="JoshQtyInput-{{ section.id }}"
+    min="1"
+    value="1"
+    form="{{ product_form_id }}"
+  >
+
+  <button class="quantity__button no-js-hidden cus_plus" name="plus" type="button">
+    <span class="visually-hidden">
+      {{ 'products.product.quantity.increase' | t }}
+    </span>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+</quantity-input>
+
+          <div style="flex:1; text-align:end; width: 100%;">
+            {% comment %} <button type="button" 
+                id="JoshAddToCart-{{ section.id }}" 
+                class="josh-shop-now cus_font_anton" 
+                data-variant-id="{{ current_variant.id }}"
+                onclick="addToCartJosh('{{ section.id }}')"
+                style="display: block; width: 100%; border: none; padding: 2px 0;">
+                ADD TO CART
+            </button> {% endcomment %}
+            
+            {%- render 'buy-buttons',
+                    product: product,
+                    product_form_id: product_form_id,
+                    section_id: section.id
+                  -%}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="ProductData-{{ section.id }}">
+    {
+      {% for block in section.blocks %}
+        {%- assign p = all_products[block.settings.product_ref] -%}
+        "{{ p.id }}": {
+          "title": {{ p.title | json }},
+          "price": {{ p.price | money | json }},
+          "desc": {{ p.description | strip_html | json }},
+          "img": {{ p.featured_image | img_url: '1400x' | json }},
+          "variantId": "{{ p.selected_or_first_available_variant.id }}",
+          "ingredients": {{ p.metafields.custom.ingredients | newline_to_br | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    }
+  </script>
+</section>
+{%- endif -%}
+
+<style>
+  p,div { font-family: 'Epilogue', sans-serif !important; }
+  .quantity__button svg,
+  .quantity__button svg * {
+      pointer-events: none;
+  }
+.josh-v5-wrapper {
+  width: 100%;
+  max-width: 100vw;
+  padding: 0 !important;
+  margin: 0;
+}
+.josh-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 100vh;
+  gap: 0;
+}
+.josh-media-col {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+.is-sticky-on .josh-sticky-wrap {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: unset;
+}
+.josh-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+}
+.josh-content-col {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.josh-content-inner { padding: 60px 8%; width: 100%; max-width: 100%; }
+.josh-badge-dynamic { position: absolute; z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.badge-bg-img { width: 100%; height: auto; }
+.badge-text-figma { position: absolute; top: 50%; left: 50%; color: #FFF; text-align: center; white-space: nowrap; line-height: 0.95; text-shadow: 4px 4px 0 #B01F5D; -webkit-text-stroke: 1.5px #AF1F5C; font-family: 'Anton', sans-serif; text-transform: uppercase; }
+.josh-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.josh-title { text-align: center; font-size: clamp(32px, 4vw, 48px); margin: 0; color: #2E1947; text-transform: uppercase; font-family: 'Anton', sans-serif; }
+.josh-main-price { font-size: clamp(32px, 4vw, 48px); color: #2E1947; font-family: 'Anton', sans-serif; }
+.josh-trust-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.trust-text { font-size: 16px; color: #2E1947; font-weight: 700; }
+.stars-gold { color: #AF1F5C; font-size: 15px; }
+.rev-count { font-size: 16px; color: #2E1947; margin-left: 5px; }
+
+.josh-desc { font-size: 16px; color: #444; line-height: 1.5; margin-bottom: 25px; }
+
+.josh-meta-info { margin-bottom: 25px; border-bottom: 1px solid #D9D9D9; }
+.meta-row { font-size: 16px; margin-bottom: 8px; color: #2E1947; }
+.meta-row strong { font-weight: 800; text-transform: uppercase; }
+
+.josh-slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.josh-thumb-viewport { 
+  flex: 1; 
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.josh-thumb-viewport::-webkit-scrollbar { display: none; }
+
+.josh-thumb-track {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.josh-thumb-item {
+  flex: 0 0 18%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(0.85);
+}
+.josh-thumb-item.is-active {
+  opacity: 1;
+  transform: scale(1);
+  border: none !important;
+}
+
+.thumb-img-box {
+  border: none;
+  border-radius: 8px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+}
+.thumb-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.josh-scroll-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.josh-scroll-btn.is-disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.josh-qty-pill input::-webkit-outer-spin-button,
+.josh-qty-pill input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.josh-qty-pill input[type=number] { -moz-appearance: textfield; }
+.josh-pdp-text-small {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.josh-footer-flex { display: flex; gap: 15px; align-items: center; }
+.josh-qty-pill { display: flex; align-items: center; gap: 10px; border-radius: 50px; padding: 5px 15px; }
+.josh-qty-pill input { width: 30px; border: none; box-shadow: none; outline: none; text-align: center; font-size: 18px; font-weight: 700; background: transparent; }
+.josh-qty-pill button { background: none; border: none; cursor: pointer; display: flex; padding: 0; }
+.josh-qty-pill svg { width: 42px; height: 42px; }
+.josh-shop-now { padding: 8px 0px; width: 100%; background: #AF1F5C; color: #fff; border: none; border-radius: 50px; font-size: clamp(24px, 3vw, 42px); cursor: pointer; text-transform: uppercase; font-family: 'Anton', sans-serif; transition: 0.3s opacity; }
+.josh-shop-now:hover { opacity: 0.9; }
+
+/* Description accordion base (desktop default: show description, hide trigger) */
+.josh-acc-trigger {
+  width: 100%;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: transparent;
+  color: #2E1947;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.quantity:after {
+  border: none !important;
+  box-shadow: none !important;
+}
+button.quantity__button.no-js-hidden.cus_minus {
+    border: 1px solid #2E1947;
+    border-radius: 50px;
+}
+button.quantity__button.no-js-hidden.cus_plus {
+  background-color: #2E1947;
+  border-radius: 50px;
+  color: #fff;
+}
+
+.josh-acc-panel { margin-top: 10px; }
+
+/* Desktop behavior: show description panel by default */
+@media (min-width: 992px) {
+  .josh-acc-panel {
+    display: block;
+  }
+  .josh-acc-panel[hidden] {
+    display: block;
+  }
+}
+
+@media (max-width: 991px) {
+  .josh-grid-layout { grid-template-columns: 1fr; }
+  .is-sticky-on .josh-sticky-wrap { position: relative; height: auto; }
+  .josh-content-inner { padding: 40px 20px; }
+  .josh-badge-dynamic { left: 62% !important; }
+  .josh-header-row { flex-direction: column; }
+  .josh-trust-row { flex-direction: column; }
+
+  .josh-acc-trigger { display: flex; }
+  .josh-acc-panel[hidden] { display: none; }
+  .josh-desc-wrap { margin-bottom: 12px; }
+  .josh-desc { text-align: center; margin-bottom: 0; }
+
+  .josh-thumb-item { flex: 0 0 30%; }
+  .josh-badge-dynamic { z-index: 2; }
+
+  .josh-footer-flex { flex-direction: column; gap: 15px; }
+  .josh-shop-now { min-width: unset !important; width: 100%; }
+  .josh-qty-pill { gap: 30px; }
+
+  .josh-main-price { display: none; }
+  .josh-main-price-mob {
+    display: flex;
+    justify-content: center;
+    font-size: 64px;
+    color: #2E1947;
+    line-height: 80px;
+    font-family: 'Anton', sans-serif;
+  }
+
+  .stars-wrap { display: none; }
+  .stars-wrap-mob { display: flex; justify-content: center; }
+  .rev-count { font-size: 18px; }
+  .stars-gold { font-size: 18px; }
+  .trust-text { padding-top: 15px; font-weight: 400; font-size: 18px; }
+  .josh-title { font-size: 48px; }
+
+  /* Make arrows feel like a scroll hint on mobile */
+  .josh-scroll-btn svg { width: 40px; height: 40px; }
+}
+
+@media (min-width: 767px) {
+  .josh-main-price-mob { display: none; }
+  .stars-wrap-mob { display: none; }
+}
+
+@media (max-height: 700px) {
+  .is-sticky-on .josh-sticky-wrap {
+    height: auto;
+    min-height: 500px;
+  }
+}
+</style>
+
+<script>
+// 1. Global Variable: Taaki humein pata rahe kaunsa flavor/variant select hua hai
+window["selectedVariantId_{{ section.id | replace: '-', '_' }}"] = "{{ current_variant.id }}";
+
+function toggleJoshDesc(sid) {
+  const sectionEl = document.getElementById('Section-' + sid);
+  if (!sectionEl) return;
+
+  const btn = sectionEl.querySelector('.josh-acc-trigger');
+  const panel = document.getElementById('JoshDescPanel-' + sid);
+  if (!btn || !panel) return;
+
+  const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  panel.hidden = isOpen;
+
+  const icon = btn.querySelector('.josh-acc-icon');
+  if (icon) icon.textContent = isOpen ? '+' : '−';
+}
+
+function updateJoshThumbArrows(sid) {
+  const viewport = document.getElementById('ThumbWrapper-' + sid);
+  const leftBtn = document.getElementById('JoshThumbLeft-' + sid);
+  const rightBtn = document.getElementById('JoshThumbRight-' + sid);
+  if (!viewport || !leftBtn || !rightBtn) return;
+
+  const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+
+  if (maxScrollLeft <= 4) {
+    leftBtn.classList.add('is-disabled');
+    rightBtn.classList.add('is-disabled');
+    return;
+  }
+
+  if (viewport.scrollLeft <= 2) leftBtn.classList.add('is-disabled');
+  else leftBtn.classList.remove('is-disabled');
+
+  if (viewport.scrollLeft >= maxScrollLeft - 2) rightBtn.classList.add('is-disabled');
+  else rightBtn.classList.remove('is-disabled');
+}
+
+function switchJoshProduct(productId, el, sid) {
+  const data = JSON.parse(document.getElementById('ProductData-' + sid).innerHTML);
+  const p = data[productId];
+  if(!p) return;
+
+  document.getElementById('JoshMainImg-' + sid).src = p.img;
+  document.querySelector('#Section-' + sid + ' .josh-title').innerText = p.title;
+
+  const descEl = document.querySelector('#Section-' + sid + ' .josh-desc');
+  if (descEl) descEl.innerText = p.desc;
+
+  const priceElements = document.querySelectorAll('#JoshPrice-' + sid);
+  priceElements.forEach(tag => tag.innerText = p.price);
+
+  const ingSpan = document.getElementById('VariantIngredients-' + sid);
+  if(ingSpan) ingSpan.innerHTML = p.ingredients ? p.ingredients : "No ingredients listed";
+
+  window["selectedVariantId_" + sid.replace(/-/g, '_')] = p.variantId;
+
+  const panel = document.getElementById('JoshDescPanel-' + sid);
+  const btn = document.querySelector('#Section-' + sid + ' .josh-acc-trigger');
+  if (panel && btn) {
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    const icon = btn.querySelector('.josh-acc-icon');
+    if (icon) icon.textContent = '+';
+  }
+
+  el.parentElement.querySelectorAll('.josh-thumb-item').forEach(i => i.classList.remove('is-active'));
+  el.classList.add('is-active');
+
+  updateJoshThumbArrows(sid);
+
+  // Reset quantity to 1 when product changes
+const qtyInput = document.querySelector('#Section-' + sid + ' input[name="quantity"]');
+
+if (qtyInput) {
+  qtyInput.value = 1;
+  qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+
+  const form = document.querySelector('#Section-' + sid + ' form');
+
+if (form) {
+  const variantInput = form.querySelector('input[name="id"]');
+  if (variantInput) {
+    variantInput.value = p.variantId;
+  }
+}
+
+}
+
+{% comment %} function changeJoshQty(v, sid) {
+  let i = document.getElementById('JoshQtyInput-' + sid);
+  let n = parseInt(i.value) + v;
+  if(n >= 1) { i.value = n; }
+}
+
+async function addToCartJosh(sid) {
+  const btn = document.getElementById('JoshAddToCart-' + sid);
+  const qty = document.getElementById('JoshQtyInput-' + sid).value;
+  const vid = selectedVariantId_{{ section.id | replace: '-', '_' }};
+
+  btn.innerText = "ADDING...";
+  btn.style.opacity = "0.7";
+
+  let formData = {
+    'items': [{
+      'id': vid,
+      'quantity': qty
+    }]
+  };
+
+  fetch(window.Shopify.routes.root + 'cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Stock Issue');
+    return response.json();
+  })
+  .then(data => {
+    btn.innerText = "ADDED TO CART!";
+    btn.style.opacity = "1";
+    
+    if (document.querySelector('cart-drawer')) {
+      const cartDrawer = document.querySelector('cart-drawer');
+      cartDrawer.classList.add('active');
+      
+      document.body.dispatchEvent(new CustomEvent('cart:updated', {
+        detail: { cart: data }
+      }));
+    } else {
+      window.location.href = '/cart';
+    }
+
+    setTimeout(() => { btn.innerText = "ADD TO CART"; }, 2000);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    btn.innerText = "ERROR / OUT OF STOCK";
+    setTimeout(() => { btn.innerText = "ADD TO CART"; }, 2000);
+  });
+} {% endcomment %}
+
+function scrollJoshThumb(dir, sid) {
+  const viewport = document.getElementById('ThumbWrapper-' + sid);
+  if (!viewport) return;
+
+  const amt = Math.round(viewport.clientWidth * 0.7);
+  viewport.scrollBy({ left: dir * amt, behavior: 'smooth' });
+
+  setTimeout(() => updateJoshThumbArrows(sid), 250);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const sid = '{{ section.id }}';
+  const viewport = document.getElementById('ThumbWrapper-' + sid);
+  if (viewport) {
+    viewport.addEventListener('scroll', function() { updateJoshThumbArrows(sid); }, { passive: true });
+    window.addEventListener('resize', function() { updateJoshThumbArrows(sid); });
+    updateJoshThumbArrows(sid);
+  }
+});
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Home Dynamic Pdp",
+  "settings": [
+    { "type": "product", "id": "featured_product", "label": "Select Product" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
+    { "type": "range", "id": "padding_top", "label": "Top Padding", "min": 0, "max": 100, "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "default": 0 },
+    { "type": "checkbox", "id": "enable_sticky", "label": "Enable Sticky Image", "default": true },
+    { "type": "header", "content": "Badge Controls" },
+    { "type": "checkbox", "id": "show_badge", "label": "Show Badge", "default": true },
+    { "type": "image_picker", "id": "badge_shape", "label": "Badge Image" },
+    { "type": "range", "id": "badge_size", "label": "Badge Size", "min": 50, "max": 250, "step": 2, "default": 110 },
+    { "type": "select", "id": "v_pos", "label": "Vertical Anchor", "options": [{"value":"top","label":"Top"},{"value":"bottom","label":"Bottom"}], "default": "top" },
+    { "type": "range", "id": "badge_top", "label": "Top %", "min": 0, "max": 100, "default": 10 },
+    { "type": "range", "id": "badge_bottom", "label": "Bottom %", "min": 0, "max": 100, "default": 10 },
+    { "type": "select", "id": "h_pos", "label": "Horizontal Anchor", "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "right" },
+    { "type": "range", "id": "badge_left", "label": "Left %", "min": 0, "max": 100, "default": 10 },
+    { "type": "range", "id": "badge_right", "label": "Right %", "min": 0, "max": 100, "default": 10 },
+    { "type": "textarea", "id": "badge_label", "label": "Badge Text", "default": "JOSH'S\nSPECIAL" },
+    { "type": "range", "id": "badge_font_size", "label": "Font Size", "min": 10, "max": 60, "default": 24 },
+    { "type": "range", "id": "text_x_offset", "label": "Text X Offset", "min": -100, "max": 100, "step": 2, "default": -50 },
+    { "type": "range", "id": "text_y_offset", "label": "Text Y Offset", "min": -100, "max": 100, "step": 2, "default": -50 },
+    { "type": "header", "content": "Content Settings" },
+    { "type": "text", "id": "customer_count", "label": "Customers Count", "default": "60,000+" },
+    { "type": "text", "id": "review_count", "label": "Review Count", "default": "2908" }
+  ],
+  "blocks": [
+    {
+      "type": "product_flavor",
+      "name": "Flavor Product",
+      "settings": [
+        { "type": "product", "id": "product_ref", "label": "Select Product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Home Josh Dynamic" }]
+}
+{% endschema %}
