@@ -1,0 +1,333 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+===============================================
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  #section-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    border-top: {{ section.settings.border_thickness }}px solid {{ section.settings.border_color }};
+    border-bottom: {{ section.settings.border_thickness }}px solid {{ section.settings.border_color }};
+    display: flex;
+    justify-content: center;
+  }
+
+  .recipe-floating-shape {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .recipe-jam-container {
+    display: flex;
+    align-items: flex-start; 
+    max-width: 1360px;
+    margin: 0 95px;
+    padding-left: 50px;
+    position: relative;
+    z-index: 2;
+    gap: 40px;
+  }
+
+  .recipe-jam-content {
+    flex: 0 0 450px; 
+  }
+
+ .recipe-jam-title {
+    font-size: 38px;
+    line-height: 40px;
+    font-weight: 400;
+    color: #2e1a47;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+  .recipe-jam-view-all-btn {
+    display: inline-block;
+    background-color: #2e1a47;
+    color: #ffffff;
+    padding: 0px 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 36px;
+    height: 58px;
+}
+  .recipe-jam-nav {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    bottom: 0px;
+  }
+
+  .recipe-jam-nav button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  .recipe-jam-nav button:hover {
+    transform: scale(1.05);
+  }
+
+  .recipe-jam-nav svg {
+    display: block;
+    width: 42px;
+    height: 42px;
+  }
+
+  .recipe-jam-slider-container {
+    flex: 1 1 910px;
+    min-width: 0;
+    overflow: visible; 
+  }
+
+  .recipe-swiper-slide {
+    width: 390px !important;
+    height: 370px !important;
+    display: flex;
+  }
+
+  .recipe-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius:8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .recipe-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .recipe-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 3;
+    right: 20px;
+  }
+
+  .recipe-info h3 {
+    font-family: 'Epilogue', sans-serif !important; 
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+  }
+
+  .recipe-view-recipe-btn {
+    background: #2e1a47;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 70px;
+    font-weight: 700;
+    display: inline-block;
+    height: 25px;
+  }
+
+  @media (max-width: 1024px) {
+    .recipe-jam-container { padding: 0 40px; margin: 0 auto; }
+    .recipe-swiper-slide { width: 350px !important; height: 380px !important; }
+  }
+
+  @media (max-width: 768px) {
+   #section-{{ section.id }} {
+      padding-top: 40px;
+      padding-bottom: 140px;
+      position: relative;
+    }
+    .recipe-jam-container { 
+      display: flex !important;
+      flex-direction: column !important; 
+      padding: 0 !important;
+      gap: 15px; 
+      align-items: center; 
+    }
+    .recipe-jam-content { 
+      order: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+      flex: none;
+    }
+   .recipe-jam-title {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 15px;
+      line-height: 54px;
+  }
+    .recipe-jam-view-all-btn {
+      font-size: 34px;
+      padding: 0px 45px;
+      height: auto;
+      margin-bottom: 10px;
+      Width: 100%;
+      text-align: center;
+    }
+   .recipe-jam-nav { 
+      order: 3;
+      position: absolute !important;
+      bottom: -110px;
+      margin-top: 25px;
+      margin-bottom: 20px;
+      display: flex !important;
+      justify-content: center;
+      gap: 20px;
+    }
+   .recipe-jam-slider-container { 
+      order: 2;
+      width: 100% !important;
+      padding-left: 20px;
+      overflow: hidden;
+      flex: 1 1 auto;
+    }
+.recipe-swiper-slide { 
+      width: 90% !important;
+    }
+    .recipe-floating-shape {
+      width: 100px !important;
+      left: 0% !important;
+      top: 0% !important;
+    }
+    .recipe-card {
+      border-radius: 12px;
+    }
+    .recipe-jam-nav svg {
+      width: 52px;
+      height: 52px;
+    }
+  }
+</style>
+
+<div class="recipe-jam-section-wrapper" id="section-{{ section.id }}">
+  {% if section.settings.shape_image != blank %}
+    <img src="{{ section.settings.shape_image | img_url: 'master' }}" 
+         class="recipe-floating-shape" 
+         style="
+           top: {{ section.settings.shape_top }}%; 
+           left: {{ section.settings.shape_left }}%; 
+           width: {{ section.settings.shape_width }}px;
+         ">
+  {% endif %}
+
+  <div class="recipe-jam-container">
+    <div class="recipe-jam-content">
+      <h2 class="recipe-jam-title">{{ section.settings.title }}</h2>
+      <a href="{{ section.settings.button_link }}" class="recipe-jam-view-all-btn"><span>{{ section.settings.button_label }}</span></a>
+      
+      <div class="recipe-jam-nav">
+        <button class="recipe-jam-prev-{{ section.id }}">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="51.5" y="51.5" width="51" height="51" rx="25.5" transform="rotate(-180 51.5 51.5)" stroke="#AF1F5C"/>
+            <path d="M30 32L30 35L27 35L18 25L27 15L30 15L30 18L30 32ZM27 19.4375L22.0625 25L27 30.5L27 19.4375Z" fill="#AF1F5C"/>
+          </svg>
+        </button>
+
+        <button class="recipe-jam-next-{{ section.id }}">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="51" height="51" rx="25.5" fill="#AF1F5C"/>
+            <rect x="0.5" y="0.5" width="51" height="51" rx="25.5" stroke="#AF1F5C"/>
+            <path d="M22 20V17H25L34 27L25 37H22V34V20ZM25 32.5625L29.9375 27L25 21.5V32.5625Z" fill="white"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="recipe-jam-slider-container">
+      <div class="swiper swiper-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {%- assign blog_handle = section.settings.blog_list -%}
+          {% if blog_handle != blank %}
+            {% for article in blogs[blog_handle].articles %}
+              <div class="swiper-slide recipe-swiper-slide">
+                <div class="recipe-card">
+                  <img src="{{ article.image | img_url: '1000x1042', crop: 'center' }}" alt="{{ article.title }}">
+                  <div class="recipe-info">
+                    <h3>{{ article.title }}</h3>
+                    <a href="{{ article.url }}" class="recipe-view-recipe-btn"><span>VIEW RECIPE</span></a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const recipeSwiper = new Swiper('.swiper-{{ section.id }}', {
+      slidesPerView: "auto", 
+      spaceBetween: 15, 
+      loop: false,
+      navigation: {
+        nextEl: '.recipe-jam-next-{{ section.id }}',
+        prevEl: '.recipe-jam-prev-{{ section.id }}',
+      },
+      breakpoints: {
+        0: {
+          centeredSlides: false,
+          slidesOffsetBefore: 20,
+          slidesOffsetAfter: 20
+        },
+        769: {
+          centeredSlides: false,
+          slidesOffsetBefore: 0
+        }
+      }
+    });
+    
+    window.addEventListener('resize', function() {
+      recipeSwiper.update();
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Recipe Jam Slider",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "header", "content": "Spacing & Borders" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Top Padding", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 150, "step": 5, "unit": "px", "label": "Bottom Padding", "default": 60 },
+    { "type": "range", "id": "border_thickness", "min": 0, "max": 10, "step": 1, "unit": "px", "label": "Border Thickness", "default": 1 },
+    { "type": "color", "id": "border_color", "label": "Border Color", "default": "#eeeeee" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "SIMPLE & DELICIOUS IDEAS WITH JAM BY JOSH" },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "VIEW ALL" },
+    { "type": "url", "id": "button_link", "label": "Button Link" },
+    { "type": "blog", "id": "blog_list", "label": "Select Blog" },
+    { "type": "header", "content": "Shape Settings" },
+    { "type": "image_picker", "id": "shape_image", "label": "Shape Image" },
+    { "type": "range", "id": "shape_width", "min": 100, "max": 1000, "step": 10, "unit": "px", "label": "Width", "default": 500 },
+    { "type": "range", "id": "shape_top", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Top", "default": 10 },
+    { "type": "range", "id": "shape_left", "min": -50, "max": 50, "step": 1, "unit": "%", "label": "Left", "default": -10 }
+  ],
+  "presets": [{ "name": "Recipe Jam Slider" }]
+}
+{% endschema %}
