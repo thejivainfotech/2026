@@ -54,7 +54,6 @@ thumbnail par click karne par pura product change ho raha
           </div>
         </div>
 
-        <!-- MOBILE ACCORDION DESCRIPTION (desktop still shows full description) -->
         <div class="josh-desc-wrap">
           <button type="button"
             class="josh-acc-trigger"
@@ -98,20 +97,7 @@ thumbnail par click karne par pura product change ho raha
         </div>
 
         <p class="josh-pdp-text-small">PICK YOUR FLAVORS!</p>
-
-        <!-- THUMB SCROLLER WITH SIDE ARROWS -->
         <div class="josh-slider-container">
-          {% comment %} <button
-            type="button"
-            class="josh-scroll-btn is-left"
-            id="JoshThumbLeft-{{ section.id }}"
-            aria-label="Scroll flavors left"
-            onclick="scrollJoshThumb(-1, '{{ section.id }}')">
-            <svg width="44" height="44" viewBox="0 0 52 52" aria-hidden="true">
-              <circle cx="26" cy="26" r="23.5" fill="none" stroke="#AF1F5C" stroke-width="2"/>
-              <path d="M29.8 16.6L20.6 26l9.2 9.4" fill="none" stroke="#AF1F5C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button> {% endcomment %}
 
           <div class="josh-thumb-viewport" id="ThumbWrapper-{{ section.id }}">
             <div class="josh-thumb-track">
@@ -128,77 +114,29 @@ thumbnail par click karne par pura product change ho raha
               {% endfor %}
             </div>
           </div>
-
-          {% comment %} <button
-            type="button"
-            class="josh-scroll-btn is-right"
-            id="JoshThumbRight-{{ section.id }}"
-            aria-label="Scroll flavors right"
-            onclick="scrollJoshThumb(1, '{{ section.id }}')">
-            <svg width="44" height="44" viewBox="0 0 52 52" aria-hidden="true">
-              <circle cx="26" cy="26" r="23.5" fill="none" stroke="#AF1F5C" stroke-width="2"/>
-              <path d="M22.2 16.6L31.4 26l-9.2 9.4" fill="none" stroke="#AF1F5C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button> {% endcomment %}
         </div>
 
         <div class="josh-footer-flex">
-            {% comment %} <div class="josh-qty-pill Test-tji">
-              
-            <button type="button" onclick="changeJoshQty(-1, '{{ section.id }}')">
-               <svg width="52" height="52" viewBox="0 0 52 52"><rect x="0.5" y="0.5" width="51" height="51" rx="25.5" fill="none" stroke="#2E1947"/><path d="M39 28.5H13V25.5H39V28.5Z" fill="#2E1947"/></svg>
-            </button>
-            <input type="number" id="JoshQtyInput-{{ section.id }}" value="1" min="1">
-            <button type="button" onclick="changeJoshQty(1, '{{ section.id }}')">
-               <svg width="52" height="52" viewBox="0 0 52 52"><rect width="52" height="52" rx="26" fill="#2E1947"/><path d="M27.5 16V26H37.5V29H27.5V39H24.5V39V29H14.5H13V26H14.5H24.5V16H27.5Z" fill="white"/></svg>
-            </button> 
-          </div>  {% endcomment %}
           {% assign product_form_id = 'product-form-' | append: section.id %}
+        <quantity-input class="quantity">
+          <button class="quantity__button no-js-hidden cus_minus" name="minus" type="button">
+            <span class="visually-hidden">
+              {{ 'products.product.quantity.decrease' | t }}
+            </span>
+            <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
 
-          {% comment %} <quantity-input class="quantity">
-            <button class="quantity__button no-js-hidden cus_minus" name="minus" type="button">
-              <span class="visually-hidden">
-                {{ 'products.product.quantity.decrease' | t }}
-              </span>
-              -
-            </button>
-
-            <input
-              class="quantity__input"
-              type="number"
-              name="quantity"
-              min="1"
-              value="1"
-              form="{{ product_form_id }}"
-            >
-
-  <button class="quantity__button no-js-hidden cus_plus" name="plus" type="button">
-    <span class="visually-hidden">
-      {{ 'products.product.quantity.increase' | t }}
-    </span>
-    +
-  </button>
-</quantity-input> {% endcomment %}
-
-<quantity-input class="quantity">
-  <button class="quantity__button no-js-hidden cus_minus" name="minus" type="button">
-    <span class="visually-hidden">
-      {{ 'products.product.quantity.decrease' | t }}
-    </span>
-    <svg width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 1H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-  </button>
-
-  <input
-    class="quantity__input"
-    type="number"
-    name="quantity"
-    id="JoshQtyInput-{{ section.id }}"
-    min="1"
-    value="1"
-    form="{{ product_form_id }}"
-  >
+          <input
+            class="quantity__input"
+            type="number"
+            name="quantity"
+            id="JoshQtyInput-{{ section.id }}"
+            min="1"
+            value="1"
+            form="{{ product_form_id }}"
+          >
 
   <button class="quantity__button no-js-hidden cus_plus" name="plus" type="button">
     <span class="visually-hidden">
@@ -210,16 +148,7 @@ thumbnail par click karne par pura product change ho raha
   </button>
 </quantity-input>
 
-          <div style="flex:1; text-align:end; width: 100%;">
-            {% comment %} <button type="button" 
-                id="JoshAddToCart-{{ section.id }}" 
-                class="josh-shop-now cus_font_anton" 
-                data-variant-id="{{ current_variant.id }}"
-                onclick="addToCartJosh('{{ section.id }}')"
-                style="display: block; width: 100%; border: none; padding: 2px 0;">
-                ADD TO CART
-            </button> {% endcomment %}
-            
+          <div style="flex:1; text-align:end; width: 100%;">            
             {%- render 'buy-buttons',
                     product: product,
                     product_form_id: product_form_id,
@@ -396,8 +325,6 @@ thumbnail par click karne par pura product change ho raha
 .josh-qty-pill svg { width: 42px; height: 42px; }
 .josh-shop-now { padding: 8px 0px; width: 100%; background: #AF1F5C; color: #fff; border: none; border-radius: 50px; font-size: clamp(24px, 3vw, 42px); cursor: pointer; text-transform: uppercase; font-family: 'Anton', sans-serif; transition: 0.3s opacity; }
 .josh-shop-now:hover { opacity: 0.9; }
-
-/* Description accordion base (desktop default: show description, hide trigger) */
 .josh-acc-trigger {
   width: 100%;
   display: none;
@@ -428,7 +355,6 @@ button.quantity__button.no-js-hidden.cus_plus {
 
 .josh-acc-panel { margin-top: 10px; }
 
-/* Desktop behavior: show description panel by default */
 @media (min-width: 992px) {
   .josh-acc-panel {
     display: block;
@@ -474,8 +400,6 @@ button.quantity__button.no-js-hidden.cus_plus {
   .stars-gold { font-size: 18px; }
   .trust-text { padding-top: 15px; font-weight: 400; font-size: 18px; }
   .josh-title { font-size: 48px; }
-
-  /* Make arrows feel like a scroll hint on mobile */
   .josh-scroll-btn svg { width: 40px; height: 40px; }
 }
 
@@ -493,7 +417,6 @@ button.quantity__button.no-js-hidden.cus_plus {
 </style>
 
 <script>
-// 1. Global Variable: Taaki humein pata rahe kaunsa flavor/variant select hua hai
 window["selectedVariantId_{{ section.id | replace: '-', '_' }}"] = "{{ current_variant.id }}";
 
 function toggleJoshDesc(sid) {
@@ -567,7 +490,6 @@ function switchJoshProduct(productId, el, sid) {
 
   updateJoshThumbArrows(sid);
 
-  // Reset quantity to 1 when product changes
 const qtyInput = document.querySelector('#Section-' + sid + ' input[name="quantity"]');
 
 if (qtyInput) {
@@ -587,59 +509,6 @@ if (form) {
 
 }
 
-{% comment %} function changeJoshQty(v, sid) {
-  let i = document.getElementById('JoshQtyInput-' + sid);
-  let n = parseInt(i.value) + v;
-  if(n >= 1) { i.value = n; }
-}
-
-async function addToCartJosh(sid) {
-  const btn = document.getElementById('JoshAddToCart-' + sid);
-  const qty = document.getElementById('JoshQtyInput-' + sid).value;
-  const vid = selectedVariantId_{{ section.id | replace: '-', '_' }};
-
-  btn.innerText = "ADDING...";
-  btn.style.opacity = "0.7";
-
-  let formData = {
-    'items': [{
-      'id': vid,
-      'quantity': qty
-    }]
-  };
-
-  fetch(window.Shopify.routes.root + 'cart/add.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
-  })
-  .then(response => {
-    if (!response.ok) throw new Error('Stock Issue');
-    return response.json();
-  })
-  .then(data => {
-    btn.innerText = "ADDED TO CART!";
-    btn.style.opacity = "1";
-    
-    if (document.querySelector('cart-drawer')) {
-      const cartDrawer = document.querySelector('cart-drawer');
-      cartDrawer.classList.add('active');
-      
-      document.body.dispatchEvent(new CustomEvent('cart:updated', {
-        detail: { cart: data }
-      }));
-    } else {
-      window.location.href = '/cart';
-    }
-
-    setTimeout(() => { btn.innerText = "ADD TO CART"; }, 2000);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-    btn.innerText = "ERROR / OUT OF STOCK";
-    setTimeout(() => { btn.innerText = "ADD TO CART"; }, 2000);
-  });
-} {% endcomment %}
 
 function scrollJoshThumb(dir, sid) {
   const viewport = document.getElementById('ThumbWrapper-' + sid);
