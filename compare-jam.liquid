@@ -1,0 +1,426 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+===============================================
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+  .jam-comparison-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.bg_image != blank %}
+      background-image: url('{{ section.settings.bg_image | img_url: '2000x' }}');
+      background-size: cover;
+      background-position: center;
+    {% endif %}
+  }
+ .jam-comparison-bottom {
+      font-size: 22px;
+      text-align: center;
+      max-width: 1100px;
+      margin: auto;
+      font-style: italic;
+      line-height: 1.2;
+      padding-top: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .jam-comparison-wrapper {
+      padding-top: 10px;
+      padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
+    }
+  }
+
+  .jam-comparison-section {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-shape-img {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    top: {{ section.settings.shape_top }}%;
+    left: {{ section.settings.shape_left }}%;
+    width: {{ section.settings.shape_width }}px;
+    transform: translate(-50%, -50%);
+  }
+
+  .comp-grid-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+    gap: 15px;
+  }
+
+  .comp-header { margin-bottom: 15px; }
+  .header-item {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    min-height: 100px;
+    border-radius: 4px;
+  }
+
+  .header-title-box {
+    grid-column: span 2;
+    justify-content: flex-start;
+    padding-left: 40px;
+    gap: 30px;
+  }
+
+  .styled-brand-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: 78px;
+    color: #fff;
+    text-transform: uppercase;
+    -webkit-text-stroke: 2px #AF1F5C;
+    text-shadow: 6px 6px 0px #B01F5D;
+    line-height: 99px;
+    margin: 0;
+}
+
+ .vs-label {
+    font-family: 'Anton', sans-serif !important;
+    font-size: 36px;
+    color: #2E1947;
+    font-weight: 400;
+    line-height: 54px;
+}
+ .vs-label p{
+    font-family: 'Anton', sans-serif !important;
+    font-size: 36px;
+    color: #2E1947;
+    font-weight: 400;
+    line-height: 54px;
+}
+
+  .header-logo-box img { 
+    max-width: 90px;
+    height: auto; 
+    }
+
+.header-others-text p{
+    font-family: 'Anton', sans-serif !important;
+    font-size: 36px;
+    font-weight: 400;
+    color: #2E1947;
+    text-transform: uppercase;
+    line-height: 40px;
+    text-align: center;
+}
+.header-item.header-others-text {
+    font-family: 'Anton', sans-serif !important;
+    font-size: 36px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 400;
+    color: #2E1947;
+    padding-inline: 64px;
+}
+
+  .col-image img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px; }
+  .col-features { 
+    background-color: #B5D4EE;
+    display: flex; 
+    flex-direction: column; 
+    border-radius: 4px; 
+    padding: 15px 25px;
+}
+  .feature-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #2E1947;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px dashed #8BBBE2;
+}
+
+
+
+  .feature-row:last-child { border-bottom: none; }
+
+  .col-brand-status { background-color: #AF1F5C; display: flex; flex-direction: column; border-radius: 4px; }
+  .col-others-status { background-color: #fff; display: flex; flex-direction: column; border-radius: 4px; border: 1px solid #f2f2f2; }
+
+  .icon-cell { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 70px; }
+  .icon-cell svg, .icon-cell img { width: 50px; height: auto; }
+
+  @media (max-width: 768px) {
+    .comp-grid-container { 
+      grid-template-columns: 1.8fr 1fr 1fr;
+      gap: 10px; 
+    }
+    .col-image {
+      display: none;
+    }
+    .header-item {
+      padding: 10px;
+      min-height: 80px;
+    }
+.header-title-box {
+      grid-column: span 1;
+      padding-left: 10px;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+      text-align: center;
+    }
+.styled-brand-title { 
+      font-size: 24px; 
+      line-height: 28px;
+      text-shadow: 2px 2px 0px #AF1F5C;
+      -webkit-text-stroke: 1px #AF1F5C;
+    }
+    .vs-label, .vs-label p {
+      font-size: 14px !important;
+      line-height: 16px !important;
+    }
+    .header-logo-box img {
+      max-width: 60px;
+    }
+    .header-others-text.header-item {
+      padding-inline: 10px;
+      font-size: 18px !important;
+      line-height: 20px !important;
+    }
+    .header-others-text p {
+      font-size: 18px !important;
+      line-height: 20px !important;
+    }
+    .col-features {
+      padding: 10px 15px;
+    }
+    .feature-row {
+      font-size: 13px;
+      line-height: 1.2;
+      padding: 10px 0;
+    }
+    .icon-cell {
+      min-height: 60px;
+    }
+    .icon-cell svg, .icon-cell img {
+      width: 35px;
+    }
+    .section-shape-img {
+      top: 65%;
+      left: 80%;
+      width: 240px;
+    }
+    }
+{% endstyle %}
+
+<div class="jam-comparison-wrapper">
+  {% if section.settings.shape_image != blank %}
+    <img src="{{ section.settings.shape_image | img_url: '800x' }}" class="section-shape-img" alt="decoration">
+  {% endif %}
+
+  <div class="jam-comparison-section">
+    <div class="comp-header comp-grid-container">
+      <div class="header-item header-title-box">
+        <h2 class="styled-brand-title">{{ section.settings.main_brand_text }}</h2>
+        <span class="vs-label">{{ section.settings.others_label }}</span>
+      </div>
+      <div class="header-item header-logo-box">
+        {% if section.settings.brand_logo != blank %}
+          <img src="{{ section.settings.brand_logo | img_url: '300x' }}" alt="Brand Logo">
+        {% endif %}
+      </div>
+      <div class="header-item header-others-text">
+        {{ section.settings.others }}
+      </div>
+    </div>
+
+    <div class="comp-body comp-grid-container">
+      <div class="col-image">
+        {% if section.settings.side_image != blank %}
+          <img src="{{ section.settings.side_image | img_url: '800x' }}" alt="Product">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+
+      <div class="col-features">
+        {% for block in section.blocks %}
+          <div class="feature-row" {{ block.shopify_attributes }}>{{ block.settings.feature_text }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-brand-status">
+        {% for block in section.blocks %}
+          <div class="icon-cell">
+            {% if block.settings.brand_icon_img != blank %}
+              <img src="{{ block.settings.brand_icon_img | img_url: '100x' }}">
+            {% elsif block.settings.brand_icon_svg != blank %}
+              <div style="width:50px">{{ block.settings.brand_icon_svg }}</div>
+            {% else %}
+              <svg width="50" height="50" viewBox="0 0 92 84" fill="none"><path d="M66.7094 28.1215C67.6083 30.4401 66.3503 32.0278 63.9162 33.5946C61.9525 34.8547 59.4512 36.224 56.8008 38.5615C54.2008 40.8528 51.6658 43.6145 49.4124 46.3321C47.4843 48.6652 45.6488 51.0732 43.9099 53.5504C43.0404 54.7916 41.8244 56.644 41.8244 56.644C41.3881 57.3181 40.7871 57.8699 40.0783 58.2473C39.3694 58.6247 38.5761 58.8152 37.7732 58.8009C36.9707 58.7961 36.1828 58.5862 35.4844 58.191C34.7859 57.7959 34.2002 57.2286 33.7829 56.5432C31.6848 53.0212 30.0676 51.6288 29.3242 51.131C27.3353 49.7911 24.9999 49.5979 24.9999 46.4812C24.9999 44.0051 27.0896 41.9995 29.6665 41.9995C31.4874 42.0667 33.178 42.7828 34.6775 43.7909C35.6352 44.4336 36.6496 45.2862 37.7039 46.4056C39.1168 44.4776 40.5862 42.5915 42.1101 40.7499C44.54 37.8201 47.4088 34.6762 50.4855 31.9627C53.5098 29.2955 57.0066 26.7984 60.7134 25.4795C63.1286 24.6184 65.8126 25.8008 66.7094 28.1215Z" fill="white"/></svg>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-others-status">
+        {% for block in section.blocks %}
+          <div class="icon-cell">
+            {% if block.settings.other_icon_img != blank %}
+              <img src="{{ block.settings.other_icon_img | img_url: '100x' }}">
+            {% elsif block.settings.other_icon_svg != blank %}
+              <div style="width:50px">{{ block.settings.other_icon_svg }}</div>
+            {% else %}
+              <svg width="50" height="50" viewBox="0 0 135 84" fill="none"><path d="M47.7963 61.7033C49.5243 63.4313 52.3263 63.4313 54.0573 61.7033L67.5004 48.2572L80.9435 61.7003C81.7734 62.5306 82.8991 62.9972 84.073 62.9975C85.2469 62.9977 86.3728 62.5317 87.2031 61.7018C88.0333 60.8719 88.4999 59.7462 88.5002 58.5724C88.5005 57.3985 88.0344 56.2725 87.2046 55.4423L73.7615 41.9992L87.2016 28.5591C87.6127 28.1482 87.9388 27.6603 88.1614 27.1234C88.3839 26.5864 88.4986 26.0109 88.4987 25.4296C88.4988 24.8484 88.3845 24.2728 88.1622 23.7358C87.9399 23.1987 87.614 22.7107 87.2031 22.2996C86.7921 21.8885 86.3043 21.5623 85.7673 21.3398C85.2304 21.1172 84.6548 21.0026 84.0736 21.0024C83.4923 21.0023 82.9168 21.1166 82.3797 21.3389C81.8426 21.5612 81.3546 21.8872 80.9435 22.2981L67.5034 35.7382L54.0573 22.2981C53.2279 21.4678 52.1026 21.0011 50.929 21.0005C49.7553 20.9999 48.6296 21.4656 47.7993 22.2951C46.969 23.1245 46.5023 24.2499 46.5017 25.4235C46.5012 26.5971 46.9668 27.7228 47.7963 28.5531L61.2424 41.9992L47.7963 55.4453C47.3854 55.8562 47.0594 56.344 46.837 56.8809C46.6147 57.4178 46.5002 57.9932 46.5002 58.5743C46.5002 59.1554 46.6147 59.7308 46.837 60.2677C47.0594 60.8046 47.3854 61.2924 47.7963 61.7033Z" fill="#AF1F5C"/></svg>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if section.settings.jam_bottom_para != blank %}
+    <div class="jam-comparison-bottom">
+      <p>{{ section.settings.jam_bottom_para }}</p>
+    </div>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Spacing (Padding)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Section Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Decorative Shape Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "shape_image",
+      "label": "Shape Image (e.g. Blob)"
+    },
+    {
+      "type": "range",
+      "id": "shape_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Shape Width",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "shape_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical Position (Top)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "shape_left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal Position (Left)",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "General Content"
+    },
+    {
+      "type": "text",
+      "id": "main_brand_text",
+      "label": "Main Brand Title",
+      "default": "JAM BY JOSH"
+    },
+    {
+      "type": "text",
+      "id": "others_label",
+      "label": "Competitor Label",
+      "default": "OTHER JAMS"
+    },
+    {
+      "type": "text",
+      "id": "others",
+      "label": "Competitor Label",
+      "default": "OTHER JAMS"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand Logo (Header)"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side Product Image"
+    },
+    {
+      "type": "text",
+      "id": "jam_bottom_para",
+      "label": "Bottom Paragraph"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Row",
+      "settings": [
+        { "type": "text", "id": "feature_text", "label": "Feature", "default": "MADE BY A TEEN FOUNDER" },
+        { "type": "header", "content": "Brand Icon" },
+        { "type": "image_picker", "id": "brand_icon_img", "label": "Image" },
+        { "type": "html", "id": "brand_icon_svg", "label": "SVG Code" },
+        { "type": "header", "content": "Competitor Icon" },
+        { "type": "image_picker", "id": "other_icon_img", "label": "Image" },
+        { "type": "html", "id": "other_icon_svg", "label": "SVG Code" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Jam Comparison Table" }]
+}
+{% endschema %}
