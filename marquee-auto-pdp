@@ -1,0 +1,251 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+
+=====================================================================
+{%- style -%}
+  .ja-section-wrapper-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .ja-shape-image-{{ section.id }} {
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    top: {{ section.settings.shape_top }}%;
+    bottom: {{ section.settings.shape_bottom }}%;
+    left: {{ section.settings.shape_left }}%;
+    right: {{ section.settings.shape_right }}%;
+    width: {{ section.settings.shape_width }}px;
+    height: auto;
+  }
+
+  .ja-main-heading {
+    font-size: 42px;
+    color: {{ section.settings.text_color }};
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+
+  .ja-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .ja-init-slider-{{ section.id }}.slick-initialized .slick-track {
+    display: flex;
+    align-items: stretch;
+    transition-timing-function: linear !important;
+  }
+
+  .ja-product-card {
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 380px;
+    {% unless section.settings.enable_slider %}
+      margin-bottom: 20px;
+    {% endunless %}
+  }
+
+  .ja-init-slider-{{ section.id }} .ja-product-card {
+    margin: 0 10px;
+  }
+
+  .ja-card-title {
+    font-size: 18px;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  .ja-image-box img {
+    width: 100%;
+    height: auto;
+    border-radius: 25px;
+    display: block;
+    margin: 0 auto;
+  }
+  .ja-product-card.slick-slide {
+    position: relative;
+    flex-direction: column-reverse;
+  }
+
+  @media (max-width: 768px) {
+    .ja-grid-layout {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .ja-shape-image-{{ section.id }} {
+      width: calc({{ section.settings.shape_width }}px / 2);
+    }
+  }
+  @media (max-width: 480px) {
+    .ja-grid-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<div class="ja-section-wrapper-{{ section.id }}">
+  
+  {% if section.settings.shape_img != blank %}
+    <img src="{{ section.settings.shape_img | img_url: 'master' }}" class="ja-shape-image-{{ section.id }}" alt="Decoration Shape">
+  {% endif %}
+
+  {% if section.settings.title != blank %}
+    <h2 class="ja-main-heading">{{ section.settings.title }}</h2>
+  {% endif %}
+
+  <div class="{% if section.settings.enable_slider %}ja-init-slider-{{ section.id }}{% else %}ja-grid-layout{% endif %}">
+    {% assign ja_collection = section.settings.collection %}
+    {% for product in collections[ja_collection].products limit: section.settings.product_limit %}
+      <div class="ja-product-card">
+        <h3 class="ja-card-title">{{ product.title }}</h3>
+        <div class="ja-image-box">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}">
+          </a>
+        </div>
+      </div>
+    {% else %}
+      {% for i in (1..4) %}
+        <div class="ja-product-card">
+          <h3 class="ja-card-title">Sample Product {{ i }}</h3>
+          <div class="ja-image-box">
+            {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+{% if section.settings.enable_slider %}
+<script>
+  $(document).ready(function(){
+    $('.ja-init-slider-{{ section.id }}').slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 0,
+      speed: {{ section.settings.slider_speed }},
+      cssEase: 'linear',
+      infinite: true,
+      arrows: false,
+      dots: false,
+      pauseOnHover: false,
+      responsive: [
+        { breakpoint: 1024, settings: { slidesToShow: 3 } },
+        { breakpoint: 768, settings: { slidesToShow: 2 } },
+        { breakpoint: 480, settings: { slidesToShow: 1 } }
+      ]
+    });
+  });
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "JA Slider with Toggle",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_slider",
+      "label": "Enable Slider",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "min": 1000,
+      "max": 9000,
+      "step": 500,
+      "unit": "ms",
+      "label": "Slider Speed (Higher is Slower)",
+      "default": 2000
+    },
+    { "type": "text", "id": "title", "label": "Title", "default": "FIND YOUR FAVORITE FLAVOR" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "product_limit", "min": 4, "max": 30, "step": 1, "label": "Total Products", "default": 12 },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#2D1A47" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "default": 50, "unit": "px", "label": "Padding Top" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "default": 50, "unit": "px", "label": "Padding Bottom" },
+    {
+      "type": "header",
+      "content": "Shape Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "shape_img",
+      "label": "Select Shape Image"
+    },
+    {
+      "type": "range",
+      "id": "shape_width",
+      "min": 50,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Shape Width",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "shape_top",
+      "min": -50,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shape_bottom",
+      "min": -50,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shape_left",
+      "min": -50,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position Left",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "shape_right",
+      "min": -50,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Position Right",
+      "default": 0
+    }
+  ],
+  "presets": [{ "name": "JA Slider" }]
+}
+{% endschema %}
