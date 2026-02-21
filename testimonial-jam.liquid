@@ -1,0 +1,303 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+===============================================
+
+{%- style -%}
+  .ji-testimonial-section-{{ section.id }} {
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    border-top: 1px solid #eeeeee;
+    {% if section.settings.bg_image != blank %}
+      background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: {{ section.settings.bg_attachment }};
+    {% else %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+  }
+
+  .ji-testimonial-section-{{ section.id }}::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    z-index: 1;
+  }
+
+  .ji-testimonial-section-{{ section.id }} > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .ji-testimonial-header h2 {
+    font-size: 48px;
+    font-weight: 400;
+    color: {{ section.settings.text_color }}; 
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+  
+  .ji-testimonial-header p, .ji-review-count {
+     color: {{ section.settings.text_color }};
+     font-size: 18px;
+     margin: 0;
+  }
+
+  .ji-stars-total { color: #d01366; font-size: 20px; margin-top: 10px; line-height: 30px; }
+  
+  .ji-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    padding: 0 40px;
+    max-width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ji-testimonial-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 10px;
+    scrollbar-width: none;
+    padding: 15px 5px;
+    width: 100%;
+  }
+  .ji-testimonial-container::-webkit-scrollbar { display: none; }
+
+  .ji-testimonial-card {
+    background: {{ section.settings.card_bg_color }};
+    border-radius: 8px;
+    min-width: calc(33.33% - 6px);
+    padding: 20px;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ji-testimonial-content { 
+    background: white; 
+    padding: 16px; 
+    border-radius: 4px; 
+    min-height: 180px;
+    flex-grow: 1;
+  }
+
+  .ji-customer-name { 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    font-size: 16px;
+    color: #2E1947;
+  }
+
+  .ji-slider-arrow {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    fill: {{ section.settings.arrow_color }};
+    transition: all 0.3s ease;
+  }
+  .ji-arrow-prev { left: -50px; }
+  .ji-arrow-next { right: -50px; }
+
+  @media (max-width: 768px) {
+    .ji-testimonial-card { min-width: 95%; }
+    
+    .ji-slider-wrapper {
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .ji-slider-arrow {
+      position: static; 
+      transform: none;
+      margin: 20px 5px 0;
+      display: inline-flex;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+    }
+
+    .ji-mobile-arrows {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .ji-explore-btn {
+        padding: 0px 50px !important;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .ji-mobile-arrows { display: contents; }
+  }
+
+  .ji-explore-btn-wrapper { margin-top: 40px; }
+  .ji-explore-btn {
+    display: inline-block;
+    background: #2E1947;
+    color: white;
+    padding: 0px 20px;
+    border-radius: 70px;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 38px;
+    text-transform: uppercase;
+    font-family: 'Anton', sans-serif !important; 
+  }
+{%- endstyle -%}
+
+<section class="ji-testimonial-section-{{ section.id }}">
+  <div class="ji-testimonial-header">
+    <h2>{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.subheading }}</p>
+    <div class="ji-stars-total">
+       <svg width="117" height="21" viewBox="0 0 117 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.4118 0.703125L13.9508 5.89844L19.5368 6.71875C20.0055 6.79688 20.3961 7.10938 20.5524 7.57812C20.7086 8.00781 20.5914 8.51562 20.2399 8.82812L16.1774 12.8516L17.1539 18.5547C17.2321 19.0234 17.0368 19.4922 16.6461 19.7656C16.2555 20.0781 15.7477 20.0781 15.318 19.8828L10.318 17.1875L5.27895 19.8828C4.88833 20.0781 4.38051 20.0781 3.98989 19.7656C3.59926 19.4922 3.40395 19.0234 3.48208 18.5547L4.41958 12.8516L0.357076 8.82812C0.0445756 8.51562 -0.0726119 8.00781 0.0445756 7.57812C0.200826 7.10938 0.591451 6.79688 1.0602 6.71875L6.6852 5.89844L9.1852 0.703125C9.38051 0.273438 9.8102 0 10.318 0C10.7868 0 11.2165 0.273438 11.4118 0.703125Z" fill="#AF1F5C"/><path d="M35.4118 0.703125L37.9508 5.89844L43.5368 6.71875C44.0055 6.79688 44.3961 7.10938 44.5524 7.57812C44.7086 8.00781 44.5914 8.51562 44.2399 8.82812L40.1774 12.8516L41.1539 18.5547C41.2321 19.0234 41.0368 19.4922 40.6461 19.7656C40.2555 20.0781 39.7477 20.0781 39.318 19.8828L34.318 17.1875L29.2789 19.8828C28.8883 20.0781 28.3805 20.0781 27.9899 19.7656C27.5993 19.4922 27.4039 19.0234 27.4821 18.5547L28.4196 12.8516L24.3571 8.82812C24.0446 8.51562 23.9274 8.00781 24.0446 7.57812C24.2008 7.10938 24.5914 6.79688 25.0602 6.71875L30.6852 5.89844L33.1852 0.703125C33.3805 0.273438 33.8102 0 34.318 0C34.7868 0 35.2164 0.273438 35.4118 0.703125Z" fill="#AF1F5C"/><path d="M59.4118 0.703125L61.9508 5.89844L67.5368 6.71875C68.0055 6.79688 68.3961 7.10938 68.5524 7.57812C68.7086 8.00781 68.5915 8.51562 68.2399 8.82812L64.1774 12.8516L65.154 18.5547C65.2321 19.0234 65.0368 19.4922 64.6461 19.7656C64.2555 20.0781 63.7477 20.0781 63.318 19.8828L58.318 17.1875L53.2789 19.8828C52.8883 20.0781 52.3805 20.0781 51.9899 19.7656C51.5993 19.4922 51.4039 19.0234 51.4821 18.5547L52.4196 12.8516L48.3571 8.82812C48.0446 8.51562 47.9274 8.00781 48.0446 7.57812C48.2008 7.10938 48.5914 6.79688 49.0602 6.71875L54.6852 5.89844L57.1852 0.703125C57.3805 0.273438 57.8102 0 58.318 0C58.7868 0 59.2164 0.273438 59.4118 0.703125Z" fill="#AF1F5C"/><path d="M83.4118 0.703125L85.9508 5.89844L91.5368 6.71875C92.0055 6.79688 92.3961 7.10938 92.5524 7.57812C92.7086 8.00781 92.5915 8.51562 92.2399 8.82812L88.1774 12.8516L89.154 18.5547C89.2321 19.0234 89.0368 19.4922 88.6461 19.7656C88.2555 20.0781 87.7477 20.0781 87.318 19.8828L82.318 17.1875L77.279 19.8828C76.8883 20.0781 76.3805 20.0781 75.9899 19.7656C75.5993 19.4922 75.404 19.0234 75.4821 18.5547L76.4196 12.8516L72.3571 8.82812C72.0446 8.51562 71.9274 8.00781 72.0446 7.57812C72.2008 7.10938 72.5915 6.79688 73.0602 6.71875L78.6852 5.89844L81.1852 0.703125C81.3805 0.273438 81.8102 0 82.318 0C82.7868 0 83.2165 0.273438 83.4118 0.703125Z" fill="#AF1F5C"/><path d="M107.412 0.703125L109.951 5.89844L115.537 6.71875C116.006 6.79688 116.396 7.10938 116.552 7.57812C116.709 8.00781 116.591 8.51562 116.24 8.82812L112.177 12.8516L113.154 18.5547C113.232 19.0234 113.037 19.4922 112.646 19.7656C112.256 20.0781 111.748 20.0781 111.318 19.8828L106.318 17.1875L101.279 19.8828C100.888 20.0781 100.381 20.0781 99.9899 19.7656C99.5993 19.4922 99.404 19.0234 99.4821 18.5547L100.42 12.8516L96.3571 8.82812C96.0446 8.51562 95.9274 8.00781 96.0446 7.57812C96.2008 7.10938 96.5915 6.79688 97.0602 6.71875L102.685 5.89844L105.185 0.703125C105.381 0.273438 105.81 0 106.318 0C106.787 0 107.216 0.273438 107.412 0.703125Z" fill="#AF1F5C"/></svg>
+    </div>
+    <p class="ji-review-count">{{ section.settings.review_text }}</p>
+  </div>
+
+  <div class="ji-slider-wrapper">
+    <div class="ji-testimonial-container" id="ji-slider-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="ji-testimonial-card" {{ block.shopify_attributes }}>
+          <div class="ji-testimonial-content">
+            <h3 class="cus_font_epilogue" style="font-size:16px; margin-bottom:10px; text-transform: uppercase; font-weight: 700;">{{ block.settings.title }}</h3>
+            <p style="font-size:14px; line-height:1.5;">{{ block.settings.text }}</p>
+          </div>
+          <div class="ji-testimonial-footer" style="padding: 10px 0 0 5px;">
+            <div class="ji-card-stars">
+<svg width="59" height="10" viewBox="0 0 59 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.70588 0.351562L6.97541 2.94922L9.76838 3.35938C10.0028 3.39844 10.1981 3.55469 10.2762 3.78906C10.3543 4.00391 10.2957 4.25781 10.1199 4.41406L8.08869 6.42578L8.57697 9.27734C8.61604 9.51172 8.51838 9.74609 8.32307 9.88281C8.12776 10.0391 7.87385 10.0391 7.65901 9.94141L5.15901 8.59375L2.63948 9.94141C2.44416 10.0391 2.19026 10.0391 1.99494 9.88281C1.79963 9.74609 1.70198 9.51172 1.74104 9.27734L2.20979 6.42578L0.178538 4.41406C0.0222878 4.25781 -0.036306 4.00391 0.0222878 3.78906C0.100413 3.55469 0.295725 3.39844 0.5301 3.35938L3.3426 2.94922L4.5926 0.351562C4.69026 0.136719 4.9051 0 5.15901 0C5.39338 0 5.60823 0.136719 5.70588 0.351562Z" fill="#AF1F5C"/>
+<path d="M17.7059 0.351562L18.9754 2.94922L21.7684 3.35938C22.0028 3.39844 22.1981 3.55469 22.2762 3.78906C22.3543 4.00391 22.2957 4.25781 22.1199 4.41406L20.0887 6.42578L20.577 9.27734C20.616 9.51172 20.5184 9.74609 20.3231 9.88281C20.1278 10.0391 19.8738 10.0391 19.659 9.94141L17.159 8.59375L14.6395 9.94141C14.4442 10.0391 14.1903 10.0391 13.9949 9.88281C13.7996 9.74609 13.702 9.51172 13.741 9.27734L14.2098 6.42578L12.1785 4.41406C12.0223 4.25781 11.9637 4.00391 12.0223 3.78906C12.1004 3.55469 12.2957 3.39844 12.5301 3.35938L15.3426 2.94922L16.5926 0.351562C16.6903 0.136719 16.9051 0 17.159 0C17.3934 0 17.6082 0.136719 17.7059 0.351562Z" fill="#AF1F5C"/>
+<path d="M29.7059 0.351562L30.9754 2.94922L33.7684 3.35938C34.0028 3.39844 34.1981 3.55469 34.2762 3.78906C34.3543 4.00391 34.2957 4.25781 34.1199 4.41406L32.0887 6.42578L32.577 9.27734C32.616 9.51172 32.5184 9.74609 32.3231 9.88281C32.1278 10.0391 31.8738 10.0391 31.659 9.94141L29.159 8.59375L26.6395 9.94141C26.4442 10.0391 26.1903 10.0391 25.9949 9.88281C25.7996 9.74609 25.702 9.51172 25.741 9.27734L26.2098 6.42578L24.1785 4.41406C24.0223 4.25781 23.9637 4.00391 24.0223 3.78906C24.1004 3.55469 24.2957 3.39844 24.5301 3.35938L27.3426 2.94922L28.5926 0.351562C28.6903 0.136719 28.9051 0 29.159 0C29.3934 0 29.6082 0.136719 29.7059 0.351562Z" fill="#AF1F5C"/>
+<path d="M41.7059 0.351562L42.9754 2.94922L45.7684 3.35938C46.0028 3.39844 46.1981 3.55469 46.2762 3.78906C46.3543 4.00391 46.2957 4.25781 46.1199 4.41406L44.0887 6.42578L44.577 9.27734C44.616 9.51172 44.5184 9.74609 44.3231 9.88281C44.1278 10.0391 43.8739 10.0391 43.659 9.94141L41.159 8.59375L38.6395 9.94141C38.4442 10.0391 38.1903 10.0391 37.9949 9.88281C37.7996 9.74609 37.702 9.51172 37.741 9.27734L38.2098 6.42578L36.1785 4.41406C36.0223 4.25781 35.9637 4.00391 36.0223 3.78906C36.1004 3.55469 36.2957 3.39844 36.5301 3.35938L39.3426 2.94922L40.5926 0.351562C40.6903 0.136719 40.9051 0 41.159 0C41.3934 0 41.6082 0.136719 41.7059 0.351562Z" fill="#AF1F5C"/>
+<path d="M53.7059 0.351562L54.9754 2.94922L57.7684 3.35938C58.0028 3.39844 58.1981 3.55469 58.2762 3.78906C58.3543 4.00391 58.2957 4.25781 58.1199 4.41406L56.0887 6.42578L56.577 9.27734C56.616 9.51172 56.5184 9.74609 56.3231 9.88281C56.1278 10.0391 55.8739 10.0391 55.659 9.94141L53.159 8.59375L50.6395 9.94141C50.4442 10.0391 50.1903 10.0391 49.9949 9.88281C49.7996 9.74609 49.702 9.51172 49.741 9.27734L50.2098 6.42578L48.1785 4.41406C48.0223 4.25781 47.9637 4.00391 48.0223 3.78906C48.1004 3.55469 48.2957 3.39844 48.5301 3.35938L51.3426 2.94922L52.5926 0.351562C52.6903 0.136719 52.9051 0 53.159 0C53.3934 0 53.6082 0.136719 53.7059 0.351562Z" fill="#AF1F5C"/>
+</svg>
+            </div>
+            <div class="ji-customer-name">{{ block.settings.author }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="ji-mobile-arrows">
+      <button class="ji-slider-arrow ji-arrow-prev" id="ji-prev-{{ section.id }}" aria-label="Previous">
+        {% if section.settings.prev_svg != blank %}
+          {{ section.settings.prev_svg }}
+        {% else %}
+          <svg viewBox="0 0 24 24" width="28"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        {% endif %}
+      </button>
+
+      <button class="ji-slider-arrow ji-arrow-next" id="ji-next-{{ section.id }}" aria-label="Next">
+        {% if section.settings.next_svg != blank %}
+          {{ section.settings.next_svg }}
+        {% else %}
+          <svg viewBox="0 0 24 24" width="28"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        {% endif %}
+      </button>
+    </div>
+  </div>
+
+  <div class="ji-explore-btn-wrapper">
+    {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_link }}" class="ji-explore-btn">{{ section.settings.button_label }}</a>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function() {
+    const initSlider = () => {
+      const slider = document.getElementById('ji-slider-{{ section.id }}');
+      const prevBtn = document.getElementById('ji-prev-{{ section.id }}');
+      const nextBtn = document.getElementById('ji-next-{{ section.id }}');
+      
+      if (!slider || !prevBtn || !nextBtn) return;
+
+      const scrollAmount = () => slider.offsetWidth > 768 ? 400 : (slider.querySelector('.ji-testimonial-card').offsetWidth + 20);
+
+      nextBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+      });
+
+      prevBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', initSlider);
+    if (window.Shopify && Shopify.designMode) {
+      document.addEventListener('shopify:section:load', initSlider);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "JI Testimonial Slider",
+  "settings": [
+    { "type": "header", "content": "Section Background" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "select", "id": "bg_attachment", "label": "Background Attachment", "options": [
+        { "value": "scroll", "label": "Scroll" },
+        { "value": "fixed", "label": "Fixed (Parallax)" }
+      ], "default": "scroll" 
+    },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity", "min": 0, "max": 90, "step": 10, "default": 0, "unit": "%" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#1a1a3a" },
+    { "type": "header", "content": "Card Settings" },
+    { "type": "color", "id": "card_bg_color", "label": "Card Border Color", "default": "#c2dcf0" },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "TRUSTED BY THOUSANDS OF CUSTOMERS." },
+    { "type": "text", "id": "subheading", "label": "Sub-heading", "default": "Real Stories. Real Results." },
+    { "type": "text", "id": "review_text", "label": "Review Text", "default": "Over 17,000 5-Star Reviews" },
+    { "type": "header", "content": "Arrow Settings" },
+    { "type": "color", "id": "arrow_color", "label": "Arrow Color", "default": "#d01366" },
+    { "type": "html", "id": "prev_svg", "label": "Custom Left Arrow (SVG Code)" },
+    { "type": "html", "id": "next_svg", "label": "Custom Right Arrow (SVG Code)" },
+    { "type": "header", "content": "Button Settings" },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "EXPLORE MORE" },
+    { "type": "url", "id": "button_link", "label": "Button Link" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Review Title", "default": "HEALTHY AND DELICIOUS" },
+        { "type": "textarea", "id": "text", "label": "Review Content", "default": "I First Tried Jam By Josh At A Local Craft Fair, And I’ve Been Obsessed Ever Since." },
+        { "type": "text", "id": "author", "label": "Customer Name", "default": "SHERRY MILLER" }
+      ]
+    }
+  ],
+  "presets": [{ 
+    "name": "JI Testimonial Slider",
+    "blocks": [
+      { "type": "testimonial" },
+      { "type": "testimonial" },
+      { "type": "testimonial" }
+    ]
+  }]
+}
+{% endschema %}
