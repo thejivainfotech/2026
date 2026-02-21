@@ -1,0 +1,242 @@
+https://jams-by-josh-cle.myshopify.com/
+Down theme version 15.4.1
+===============================================
+
+{%- style -%}
+  .marquee-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .marquee-wrapper-{{ section.id }} {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: 0;
+  }
+
+  .marquee-content-{{ section.id }} {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    min-width: 100%;
+    gap: 0;
+    animation: scroll-{{ section.id }} {{ section.settings.speed }}s linear infinite;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 {{ section.settings.gap_between | divided_by: 2 }}px;
+    gap: 12px;
+  }
+
+  .marquee-icon {
+    width: {{ section.settings.icon_width }}px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    background: transparent !important;
+  }
+
+  .marquee-icon svg {
+    width: 100%;
+    height: auto;
+    fill: {{ section.settings.icon_color }};
+  }
+
+  .marquee-icon svg path {
+    fill: {{ section.settings.icon_color }};
+  }
+
+  .marquee-icon img {
+    width: 100%;
+    height: auto;
+    background: transparent !important;
+  }
+
+  .marquee-text {
+    font-size: {{ section.settings.font_size }}px;
+    color: {{ section.settings.text_color }};
+    font-weight: 700;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  @keyframes scroll-{{ section.id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+
+  @media screen and (max-width: 767px) {
+    .marquee-text {
+      /* font-size: calc({{ section.settings.font_size }}px * 0.8); */
+      font-size: 13px;
+      font-weight: 700;
+    }
+  }
+{%- endstyle -%}
+
+<div class="marquee-section-{{ section.id }}">
+  <div class="marquee-wrapper-{{ section.id }}">
+    {% for i in (1..2) %}
+      <div class="marquee-content-{{ section.id }}">
+        {% for block in section.blocks %}
+          <div class="marquee-item" {{ block.shopify_attributes }}>
+            <div class="marquee-icon">
+              {% if block.settings.icon_svg != blank %}
+                {{ block.settings.icon_svg }}
+              {% elsif block.settings.icon_image != blank %}
+                <img src="{{ block.settings.icon_image | image_url: width: 150 }}" alt="{{ block.settings.title }}" loading="lazy">
+              {% endif %}
+            </div>
+            {% if block.settings.title != blank %}
+              <span class="marquee-text">{{ block.settings.title }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Infinite Marquee Fixed",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#7d103d"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color (SVG)",
+      "default": "#7d103d"
+    },
+    {
+      "type": "header",
+      "content": "Spacing & Size"
+    },
+    {
+      "type": "range",
+      "id": "gap_between",
+      "min": 20,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Space Between Items",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Speed (Lower = Faster)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Marquee Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text",
+          "default": "Feature Item"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon (Image)"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon (SVG Code)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Infinite Marquee Fixed",
+      "blocks": [
+        { "type": "feature" },
+        { "type": "feature" },
+        { "type": "feature" }
+      ]
+    }
+  ]
+}
+{% endschema %}
